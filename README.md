@@ -2,15 +2,6 @@
 
 A Chrome extension focused exclusively on automated accessibility testing, derived from Microsoft's Accessibility Insights for Web. This streamlined version removes all manual assessment features and retains only the Fast Pass automated testing functionality with customized output formatting for AI analysis.
 
-## Features
-
-- **Fast Automated Checks**: Detects common accessibility issues using axe-core
-- **Needs Review Detection**: Identifies elements requiring manual accessibility review  
-- **AI-Optimized Output**: Custom JSON format and bracketed issue format for easy AI analysis
-- **Minimal UI**: Simple one-click scanning with copy-to-clipboard results
-- **Lightweight**: Under 2MB extension size vs ~10MB of full Accessibility Insights
-- **No Build Required**: Ready to use directly from source
-
 ## Quick Start
 
 ### Installation
@@ -51,7 +42,7 @@ A Chrome extension focused exclusively on automated accessibility testing, deriv
 }
 ```
 
-### Bracketed Issue Format
+### Issue Format
 ```
 [URL]
 https://example.com
@@ -102,14 +93,6 @@ scanly/
     └── axe-core.min.js (accessibility engine)
 ```
 
-### Key Components
-
-1. **Background Service Worker**: Coordinates scans and formats results
-2. **Content Script Scanner**: Injects axe-core and executes accessibility checks
-3. **Popup Interface**: Simple scan trigger and results display
-
-## Development
-
 ### File Structure
 
 The extension uses **vanilla JavaScript** with no build process required:
@@ -122,63 +105,9 @@ The extension uses **vanilla JavaScript** with no build process required:
 - `scanner/axe-core.min.js` - Accessibility testing engine (v4.10.3)
 - `icons/` - Extension branding and icons
 
-### Making Changes
-
-1. **Edit any `.js` file directly** - no compilation needed
-2. **Reload the extension** in `chrome://extensions/`
-3. **Test changes immediately**
-
-No Node.js, npm, or build tools required!
-
-## Differences from Full Accessibility Insights
-
-### Removed Features
-- All manual assessment workflows
-- Guided testing procedures  
-- Complex reporting infrastructure
-- Assessment navigation UI
-- Tab stops visualization
-- Color contrast tools
-- Settings configuration
-
-### Retained Features
-- Fast Pass automated checks using axe-core (v4.10.3)
-- Needs review detection for ambiguous cases  
-- Core scanning engine with WCAG 2.0/2.1 AA rules
-- Custom result formatting for AI analysis
-
-## Performance
-
-- **Scan Speed**: 1-3 seconds for typical web pages
-- **Extension Size**: ~2MB (vs ~10MB original)
-- **Memory Usage**: <50MB during active scanning
-- **Compatibility**: Chrome Manifest V3
-
-## Testing
-
-The extension has been tested on various websites including:
-- T-Mobile.com (found 11-13 violations)
-- E-commerce sites
-- News websites
-- Corporate sites
-
-Common issues detected:
-- Color contrast violations
-- Missing ARIA labels
-- Heading structure problems
-- Form accessibility issues
-- Image alt text problems
-
-## Contributing
-
-1. Fork the repository
-2. Make changes directly to the JavaScript files
-3. Test in Chrome using "Load unpacked"
-4. Submit a pull request
-
 ## License
 
-MIT License - Derived from Microsoft's Accessibility Insights for Web.
+MIT License - See LICENSE file for details.
 
 ## Support
 

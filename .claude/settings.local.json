@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git --version)",
+      "Bash(npm install:*)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Bash(node:*)",
+      "Bash(find:*)",
+      "Bash(rm:*)",
+      "Bash(mv:*)"
+    ],
+    "deny": [],
+    "ask": [],
+    "defaultMode": "acceptEdits",
+    "additionalDirectories": [
+      "C:\\c\\sites"
+    ]
+  }
+}

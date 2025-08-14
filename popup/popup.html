@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Scanly - Quick A11y Testing</title>
+    <style>
+        body {
+            width: 300px;
+            padding: 16px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 18px;
+            color: #323130;
+            font-weight: 600;
+        }
+        
+        .header p {
+            margin: 4px 0 0 0;
+            font-size: 12px;
+            color: #605e5c;
+        }
+        
+        .scan-section {
+            background: white;
+            border-radius: 4px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid #e1dfdd;
+        }
+        
+        .scan-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #0078d4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .scan-button:hover {
+            background-color: #106ebe;
+        }
+        
+        .scan-button:disabled {
+            background-color: #a19f9d;
+            cursor: not-allowed;
+        }
+        
+        .results-section {
+            background: white;
+            border-radius: 4px;
+            padding: 16px;
+            border: 1px solid #e1dfdd;
+            display: none;
+        }
+        
+        .results-section.show {
+            display: block;
+        }
+        
+        .results-summary {
+            margin-bottom: 12px;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 4px 0;
+            font-size: 14px;
+        }
+        
+        .result-count {
+            font-weight: 600;
+        }
+        
+        .error-count {
+            color: #d13438;
+        }
+        
+        .warning-count {
+            color: #ff8c00;
+        }
+        
+        .copy-buttons {
+            margin-top: 12px;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .copy-button {
+            flex: 1;
+            padding: 8px;
+            background-color: #f3f2f1;
+            color: #323130;
+            border: 1px solid #d2d0ce;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .copy-button:hover {
+            background-color: #edebe9;
+        }
+        
+        .status {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 8px;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        
+        .status.scanning {
+            background-color: #fff4ce;
+            color: #8a6c00;
+        }
+        
+        .status.error {
+            background-color: #fde7e9;
+            color: #a4262c;
+        }
+        
+        .status.success {
+            background-color: #dff6dd;
+            color: #107c10;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #0078d4;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Scanly</h1>
+        <p>Quick A11y Testing</p>
+    </div>
+    
+    <div class="scan-section">
+        <button id="scanButton" class="scan-button">
+            <span id="scanButtonText">Scan This Page</span>
+        </button>
+        <div id="statusMessage" class="status hidden"></div>
+    </div>
+    
+    <div id="resultsSection" class="results-section">
+        <div class="results-summary">
+            <h3 style="margin: 0 0 8px 0; font-size: 14px;">Last Scan Results:</h3>
+            <div class="result-item">
+                <span>Failed Checks:</span>
+                <span id="failedCount" class="result-count error-count">0</span>
+            </div>
+            <div class="result-item">
+                <span>Need Review:</span>
+                <span id="reviewCount" class="result-count warning-count">0</span>
+            </div>
+        </div>
+        
+        <div class="copy-buttons">
+            <button id="copyJsonButton" class="copy-button">Copy JSON</button>
+            <button id="copyFormattedButton" class="copy-button">Copy Report</button>
+        </div>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>

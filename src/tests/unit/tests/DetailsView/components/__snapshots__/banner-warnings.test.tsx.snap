@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`BannerWarning render 1`] = `
-<DocumentFragment>
-  <mock-scanincompletewarning />
-  <mock-injection-failed-warning />
-</DocumentFragment>
-`;

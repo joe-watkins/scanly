@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`PassthroughBrowserEventManager addApplicationListener does not allow multiple registrations for the same event type 1`] = `"Listener already registered for event-type"`;

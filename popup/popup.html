@@ -117,6 +117,34 @@
             background-color: #edebe9;
         }
         
+        .view-details-section {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e1dfdd;
+        }
+        
+        .view-details-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0078d4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .view-details-button:hover {
+            background-color: #106ebe;
+        }
+        
+        .view-details-button:disabled {
+            background-color: #a19f9d;
+            cursor: not-allowed;
+        }
+        
         .status {
             text-align: center;
             font-size: 12px;
@@ -190,6 +218,10 @@
         <div class="copy-buttons">
             <button id="copyJsonButton" class="copy-button">Copy JSON</button>
             <button id="copyFormattedButton" class="copy-button">Copy Report</button>
+        </div>
+        
+        <div class="view-details-section">
+            <button id="viewDetailsButton" class="view-details-button">View Detailed Issues</button>
         </div>
     </div>
     

@@ -80,7 +80,18 @@ class ScanCoordinator {
         // Process automated check failures
         if (scanResults.automated && scanResults.automated.violations) {
             scanResults.automated.violations.forEach(violation => {
+                console.log('=== AXE VIOLATION DATA ===');
+                console.log('Full violation object:', violation);
+                console.log('ID:', violation.id);
+                console.log('Description:', violation.description);
+                console.log('Help:', violation.help);
+                console.log('HelpUrl:', violation.helpUrl);
+                console.log('Impact:', violation.impact);
+                console.log('Tags:', violation.tags);
+                console.log('===========================');
+                
                 violation.nodes.forEach(node => {
+                    console.log('Node data:', node);
                     automatedChecks.push({
                         rule_id: violation.id,
                         impact: violation.impact || 'unknown',
@@ -96,7 +107,18 @@ class ScanCoordinator {
         // Process needs review items
         if (scanResults.needsReview && scanResults.needsReview.incomplete) {
             scanResults.needsReview.incomplete.forEach(incomplete => {
+                console.log('=== AXE INCOMPLETE DATA ===');
+                console.log('Full incomplete object:', incomplete);
+                console.log('ID:', incomplete.id);
+                console.log('Description:', incomplete.description);
+                console.log('Help:', incomplete.help);
+                console.log('HelpUrl:', incomplete.helpUrl);
+                console.log('Impact:', incomplete.impact);
+                console.log('Tags:', incomplete.tags);
+                console.log('============================');
+                
                 incomplete.nodes.forEach(node => {
+                    console.log('Incomplete node data:', node);
                     needsReview.push({
                         rule_id: incomplete.id,
                         message: incomplete.description,

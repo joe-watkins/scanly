@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Scanly - Issue Details</title>
+    <style>
+        body {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            line-height: 1.5;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e1dfdd;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #323130;
+            font-weight: 600;
+        }
+        
+        .header p {
+            margin: 8px 0 0 0;
+            font-size: 14px;
+            color: #605e5c;
+        }
+
+        .summary {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #e1dfdd;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            font-size: 16px;
+        }
+
+        .summary-count {
+            font-weight: 600;
+        }
+
+        .error-count {
+            color: #d13438;
+        }
+
+        .warning-count {
+            color: #ff8c00;
+        }
+        
+        .issues-container {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e1dfdd;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background-color: #f3f2f1;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e1dfdd;
+            font-weight: 600;
+            font-size: 16px;
+            color: #323130;
+        }
+
+        .section-header.error {
+            background-color: #fde7e9;
+            color: #a4262c;
+        }
+
+        .section-header.warning {
+            background-color: #fff4ce;
+            color: #8a6c00;
+        }
+        
+        .accordion-item {
+            border-bottom: 1px solid #e1dfdd;
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+        
+        .accordion-header {
+            padding: 16px 20px;
+            background: white;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: #323130;
+            transition: background-color 0.2s;
+        }
+        
+        .accordion-header:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .accordion-header.active {
+            background-color: #f3f2f1;
+        }
+        
+        .accordion-title {
+            flex: 1;
+            text-align: left;
+            margin-right: 12px;
+        }
+
+        .accordion-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 12px;
+            color: #605e5c;
+        }
+
+        .severity-badge {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .severity-blocker {
+            background-color: #fde7e9;
+            color: #a4262c;
+        }
+
+        .severity-high {
+            background-color: #fff4ce;
+            color: #8a6c00;
+        }
+
+        .severity-medium {
+            background-color: #e1f5fe;
+            color: #0078d4;
+        }
+
+        .severity-low {
+            background-color: #f0f0f0;
+            color: #605e5c;
+        }
+        
+        .accordion-icon {
+            font-size: 12px;
+            transition: transform 0.2s;
+        }
+        
+        .accordion-icon.rotated {
+            transform: rotate(90deg);
+        }
+        
+        .accordion-content {
+            display: none;
+            padding: 20px;
+            background-color: #fafafa;
+            border-top: 1px solid #e1dfdd;
+        }
+        
+        .accordion-content.show {
+            display: block;
+        }
+
+        .issue-detail {
+            margin-bottom: 16px;
+        }
+
+        .issue-detail h4 {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #323130;
+        }
+
+        .issue-detail p {
+            margin: 0;
+            font-size: 13px;
+            color: #605e5c;
+        }
+
+        .code-snippet {
+            background-color: #f8f8f8;
+            border: 1px solid #d2d0ce;
+            border-radius: 4px;
+            padding: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .copy-button {
+            background-color: #0078d4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 12px;
+        }
+
+        .copy-button:hover {
+            background-color: #106ebe;
+        }
+
+        .copy-button.success {
+            background-color: #107c10;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #605e5c;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Accessibility Scan Results</h1>
+        <p id="scanInfo">Detailed issue breakdown</p>
+    </div>
+
+    <div class="summary" id="summarySection">
+        <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #323130;">Summary</h3>
+        <div class="summary-item">
+            <span>Failed Checks:</span>
+            <span id="totalFailed" class="summary-count error-count">0</span>
+        </div>
+        <div class="summary-item">
+            <span>Need Review:</span>
+            <span id="totalReview" class="summary-count warning-count">0</span>
+        </div>
+        <div class="summary-item">
+            <span>URL:</span>
+            <span id="scanUrl" style="font-size: 12px; color: #605e5c;">-</span>
+        </div>
+    </div>
+
+    <div id="issuesContainer" class="issues-container">
+        <div class="empty-state">
+            <p>No scan results available. Run a scan from the extension popup to see detailed issues.</p>
+        </div>
+    </div>
+
+    <script src="output.js"></script>
+</body>
+</html>

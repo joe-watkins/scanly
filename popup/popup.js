@@ -20,11 +20,13 @@ class ScanlyPopup {
         this.reviewCount = document.getElementById('reviewCount');
         this.copyJsonButton = document.getElementById('copyJsonButton');
         this.copyFormattedButton = document.getElementById('copyFormattedButton');
+        this.viewDetailsButton = document.getElementById('viewDetailsButton');
 
         // Set up event listeners
         this.scanButton.addEventListener('click', () => this.scanCurrentPage());
         this.copyJsonButton.addEventListener('click', () => this.copyToClipboard('json'));
         this.copyFormattedButton.addEventListener('click', () => this.copyToClipboard('formatted'));
+        this.viewDetailsButton.addEventListener('click', () => this.openDetailsPage());
     }
 
     async loadLastResults() {
@@ -33,6 +35,9 @@ class ScanlyPopup {
             if (result.lastScanResults) {
                 this.lastScanResults = result.lastScanResults;
                 this.updateResultsDisplay();
+            } else {
+                // Disable view details button if no results
+                this.viewDetailsButton.disabled = true;
             }
         } catch (error) {
             console.error('Failed to load last results:', error);
@@ -115,6 +120,9 @@ class ScanlyPopup {
         
         console.log('Showing results section');
         this.resultsSection.classList.add('show');
+        
+        // Enable the view details button when results are available
+        this.viewDetailsButton.disabled = false;
     }
 
     setScanning(isScanning) {
@@ -235,8 +243,8 @@ ${issue.snippet}
 
 [Why is it important]
 ${isAutomated ? 
-    `This ${issue.impact || 'unknown'} impact accessibility issue prevents users with disabilities from accessing content effectively.` :
-    'This element requires manual verification to ensure it meets accessibility standards.'
+    `${issue.message} This ${this.mapImpactToSeverity(issue.impact)} impact issue affects users with disabilities who rely on assistive technologies.` :
+    `${issue.message} This element requires manual verification to ensure it meets accessibility standards.`
 }
 
 [How to fix]
@@ -273,6 +281,30 @@ ${this.getWCAGReference(issue.rule_id)}`;
         };
         
         return wcagMap[ruleId] || 'See WCAG guidelines for ' + ruleId;
+    }
+
+    mapImpactToSeverity(axeImpact) {
+        // Map Axe impact levels to our severity levels
+        const impactMap = {
+            'critical': 'blocker',
+            'serious': 'high', 
+            'moderate': 'medium',
+            'minor': 'low'
+        };
+        
+        return impactMap[axeImpact] || 'medium';
+    }
+
+    async openDetailsPage() {
+        try {
+            // Open the output page in a new tab
+            await chrome.tabs.create({
+                url: chrome.runtime.getURL('output/output.html')
+            });
+        } catch (error) {
+            console.error('Failed to open details page:', error);
+            this.showStatus('Failed to open details page', 'error');
+        }
     }
 }
 
